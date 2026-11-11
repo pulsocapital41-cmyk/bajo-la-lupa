@@ -60,28 +60,28 @@ const sections = [
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={new URL(image, Astro.url)} />
 
-  <!-- Google Fonts: Syne (Titulares modernos y pesados) + DM Sans (Cuerpo limpio) + Space Mono (Expedientes técnicos) -->
+  <!-- Google Fonts: Montserrat (Titulares serios y sólidos acordes al logo) + Inter (Lectura limpia) + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet" />
 
   <style is:global>
     :root {
-      --ink-primary: #121417;
-      --ink-secondary: #323842;
-      --ink-muted: #647082;
-      --bg-page: #fbfbfc;
+      --ink-primary: #111418;
+      --ink-secondary: #313740;
+      --ink-muted: #647080;
+      --bg-page: #f8fafc;
       --bg-surface: #ffffff;
       --gold-lupa: #927740;
       --gold-dark: #745d2e;
       --gold-subtle: #f8f5ee;
       --gold-border: #dfd4be;
       --alert-red: #d32f2f;
-      --border-light: #e6e9ed;
-      --border-dark: #121417;
-      --font-headline: 'Syne', sans-serif;
-      --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-mono: 'Space Mono', monospace;
+      --border-light: #e5e9ee;
+      --border-dark: #111418;
+      --font-headline: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
     * {
@@ -117,20 +117,20 @@ const sections = [
       padding: 0 20px;
     }
 
-    /* HEADER & NAVBAR UNIFICADO (SIN BARRA SUPERIOR PESADA) */
+    /* HEADER MINIMALISTA & MODERNO */
     .site-header {
       background: var(--bg-surface);
       border-bottom: 2px solid var(--border-dark);
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .site-header__inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 72px;
+      height: 70px;
       gap: 20px;
     }
     .brand-logo-link {
@@ -155,9 +155,9 @@ const sections = [
     .nav-link {
       display: block;
       padding: 8px 14px;
-      font-family: var(--font-body);
-      font-size: 13.5px;
-      font-weight: 600;
+      font-family: var(--font-headline);
+      font-size: 13px;
+      font-weight: 700;
       color: var(--ink-secondary);
       border-radius: 4px;
       letter-spacing: -0.01em;
@@ -178,8 +178,8 @@ const sections = [
     .btn-denuncia-header {
       background: var(--border-dark);
       color: #fff;
-      font-family: var(--font-body);
-      font-size: 12px;
+      font-family: var(--font-headline);
+      font-size: 11.5px;
       font-weight: 700;
       padding: 8px 15px;
       border-radius: 4px;
@@ -196,9 +196,9 @@ const sections = [
 
     /* FOOTER */
     .footer {
-      background: #14171a;
+      background: #111418;
       color: #d1d5db;
-      padding: 50px 0 25px;
+      padding: 48px 0 25px;
       margin-top: 60px;
       border-top: 3px solid var(--gold-lupa);
     }
@@ -209,7 +209,7 @@ const sections = [
       margin-bottom: 35px;
     }
     .footer__brand img {
-      height: 40px;
+      height: 38px;
       width: auto;
       margin-bottom: 14px;
       filter: brightness(0) invert(1);
@@ -223,7 +223,7 @@ const sections = [
     .footer__col-title {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--gold-lupa);
       margin-bottom: 14px;
@@ -254,6 +254,7 @@ const sections = [
       font-weight: 700;
       color: #fff;
       margin-bottom: 5px;
+      font-family: var(--font-headline);
     }
     .footer__box-desc {
       font-size: 11.5px;
@@ -269,6 +270,7 @@ const sections = [
       font-weight: 700;
       padding: 7px 12px;
       border-radius: 3px;
+      font-family: var(--font-headline);
     }
     .footer__bottom {
       border-top: 1px solid rgba(255,255,255,0.08);
@@ -292,7 +294,7 @@ const sections = [
   </style>
 </head>
 <body>
-  <!-- Header Minimalista y Limpio (Sin barra superior) -->
+  <!-- Header Minimalista y Limpio -->
   <header class="site-header">
     <div class="container site-header__inner">
       <a href="/" class="brand-logo-link" aria-label="Bajo la Lupa CDMX — Inicio">
