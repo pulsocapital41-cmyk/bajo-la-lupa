@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const sections = [
+    { slug: "gam-al-dia", name: "GAM al Día", desc: "Monitoreo territorial diario, actividades de gobierno y pulso de las 233 colonias de la alcaldía." },
+    { slug: "obras-y-presupuesto", name: "Obras & Presupuesto", desc: "Auditoría ciudadana a licitaciones, presupuesto participativo, bacheo y obra pública en la GAM." },
+    { slug: "seguridad", name: "Seguridad", desc: "Reportes territoriales, operativos en CETRAMs, cuadrantes policiales y prevención barrial." },
+    { slug: "denuncia-ciudadana", name: "Denuncia Ciudadana", desc: "Testimonios, anomalías en servicios, cobros irregulares y quejas vecinales verificadas." },
+    { slug: "opinion", name: "Opinión", desc: "Análisis editorial y columnas ciudadanas sobre la vida pública en el norte de la capital." },
+  ];
+
+  const allArticles = await getCollection('noticias');
+
+  return sections.map(sec => {
+    const normalize = (str: string) =>
+      str.toLowerCase().replace(/\s+/g, '-').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    const filtered = allArticles
+      .filter(art => normalize(art.data.category) === sec.slug)
+      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+    return {
+      params: { categoria: sec.slug },
+      props: { section: sec, articles: filtered },
+    };
+  });
+}
+
+const { section, articles } = Astro.props;
+
+const formatDate = (d: Date) => {
+  return new Intl.DateTimeFormat('es-MX', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }).format(d);
+};
+---
+
+<BaseLayout
+  title={`${section.name} — Cobertura Especial en la GAM`}
+  description={section.desc}
+>
+  <div class="container section-page">
+    <header class="section-header">
+      <div class="section-badge">Expedientes Temáticos</div>
+      <h1 class="section-title">{section.name}</h1>
+      <p class="section-desc">{section.desc}</p>
+    </header>
+
+    {articles.length === 0 ? (
+      <div class="empty-state">
+        <p>No hay expedientes archivados recientemente en esta sección.</p>
+        <a href="/" class="btn-return">Volver a la Portada</a>
+      </div>
+    ) : (
+      <div class="articles-grid">
+        {articles.map(art => (
+          <article class="article-card">
+            <div class="card-media">
+              <a href={`/noticias/${art.id}/`}>
+                <img src={art.data.image} alt={art.data.title} loading="lazy" />
+              </a>
+              {art.data.status && (
+                <span class="card-status">{art.data.status}</span>
+              )}
+            </div>
+            <div class="card-body">
+              {art.data.expedienteNo && (
+                <span class="card-code">{art.data.expedienteNo}</span>
+              )}
+              <h2 class="card-heading">
+                <a href={`/noticias/${art.id}/`}>{art.data.title}</a>
+              </h2>
+              <p class="card-excerpt">{art.data.excerpt || art.data.subtitle}</p>
+              <div class="card-footer">
+                <span>{art.data.author}</span>
+                <time>{formatDate(art.data.pubDate)}</time>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .section-page {
+    padding-top: 35px;
+    padding-bottom: 60px;
+  }
+  .section-header {
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-left: 5px solid var(--gold-lupa);
+    padding: 30px;
+    border-radius: 4px;
+    margin-bottom: 40px;
+  }
+  .section-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    color: var(--ink-primary);
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    font-size: 14.5px;
+    color: var(--ink-secondary);
+    max-width: 650px;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .article-card {
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .article-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  }
+  .card-media {
+    position: relative;
+    height: 190px;
+    background: #000;
+  }
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card-status {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(24, 27, 30, 0.9);
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .card-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .card-code {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--gold-dark);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .card-heading {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .card-heading a:hover {
+    color: var(--gold-lupa);
+  }
+  .card-excerpt {
+    font-size: 13px;
+    color: var(--ink-secondary);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-muted);
+    border-top: 1px solid var(--border-light);
+    padding-top: 12px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+  }
+  .btn-return {
+    display: inline-block;
+    margin-top: 15px;
+    background: var(--ink-primary);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

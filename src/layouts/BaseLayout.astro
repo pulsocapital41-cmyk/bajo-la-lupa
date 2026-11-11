@@ -1,0 +1,456 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+  type?: 'website' | 'article';
+  pubDate?: Date;
+  author?: string;
+}
+
+const {
+  title = "Bajo la Lupa CDMX — Periodismo de Investigación y Vigilancia Ciudadana en la GAM",
+  description = "Portal independiente de investigación, rendición de cuentas, fiscalización de recursos y periodismo ciudadano en la Alcaldía Gustavo A. Madero de la Ciudad de México.",
+  image = "/logo.png",
+  canonicalURL = Astro.url.href,
+  type = "website",
+  pubDate,
+  author = "Unidad de Investigación Bajo la Lupa",
+} = Astro.props;
+
+const siteTitle = title.includes("Bajo la Lupa") ? title : `${title} — Bajo la Lupa CDMX`;
+
+const sections = [
+  { name: "GAM al Día", href: "/seccion/gam-al-dia" },
+  { name: "Obras & Presupuesto", href: "/seccion/obras-y-presupuesto" },
+  { name: "Seguridad", href: "/seccion/seguridad" },
+  { name: "Denuncia Ciudadana", href: "/seccion/denuncia-ciudadana" },
+  { name: "Opinión", href: "/seccion/opinion" },
+];
+
+const today = new Intl.DateTimeFormat('es-MX', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}).format(new Date());
+const formattedToday = today.charAt(0).toUpperCase() + today.slice(1);
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Primary Meta Tags -->
+  <title>{siteTitle}</title>
+  <meta name="title" content={siteTitle} />
+  <meta name="description" content={description} />
+  <meta name="author" content={author} />
+
+  <!-- Open Graph / WhatsApp / Facebook -->
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={siteTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(image, Astro.url)} />
+  <meta property="og:site_name" content="Bajo la Lupa CDMX" />
+  <meta property="og:locale" content="es_MX" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content={canonicalURL} />
+  <meta name="twitter:title" content={siteTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={new URL(image, Astro.url)} />
+
+  <!-- Google Fonts: Libre Baskerville (Investigative Editorial Serif) + Plus Jakarta Sans (Clean Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style is:global>
+    :root {
+      --ink-primary: #181b1e;
+      --ink-secondary: #3b424a;
+      --ink-muted: #6b7582;
+      --bg-page: #f8f9fa;
+      --bg-surface: #ffffff;
+      --gold-lupa: #947942;
+      --gold-dark: #7b6231;
+      --gold-subtle: #f7f3ea;
+      --gold-border: #e2d5bc;
+      --alert-red: #c62828;
+      --alert-subtle: #fbe9e7;
+      --border-light: #e5e8eb;
+      --border-dark: #23272c;
+      --font-serif: 'Libre Baskerville', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* TOP BAR - INVESTIGATIVE */
+    .topbar {
+      background: var(--ink-primary);
+      color: #e5e7eb;
+      font-size: 11.5px;
+      border-bottom: 2px solid var(--gold-lupa);
+      padding: 7px 0;
+    }
+    .topbar__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+    .topbar__left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .topbar__badge {
+      background: var(--gold-lupa);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+    .topbar__motto {
+      color: #9ca3af;
+      font-style: italic;
+    }
+    .topbar__right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar__link {
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+    }
+    .topbar__link:hover {
+      color: var(--gold-lupa);
+    }
+
+    /* MAIN HEADER */
+    .header-main {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-light);
+      padding: 18px 0;
+    }
+    .header-main__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand-logo-img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+    .header-demarcacion {
+      text-align: right;
+    }
+    .header-demarcacion__title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-lupa);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .header-demarcacion__desc {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .navbar__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 0;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link {
+      display: block;
+      padding: 13px 18px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink-secondary);
+      border-bottom: 2px solid transparent;
+      letter-spacing: -0.01em;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--ink-primary);
+      border-bottom-color: var(--gold-lupa);
+      background: var(--gold-subtle);
+    }
+    .nav-denuncia-btn {
+      background: var(--gold-lupa);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 7px 14px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.02em;
+      transition: background 0.15s;
+    }
+    .nav-denuncia-btn:hover {
+      background: var(--gold-dark);
+      color: #fff;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--ink-primary);
+      color: #d1d5db;
+      padding: 55px 0 30px;
+      margin-top: 60px;
+      border-top: 4px solid var(--gold-lupa);
+    }
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer__brand img {
+      height: 44px;
+      width: auto;
+      margin-bottom: 16px;
+      filter: brightness(0) invert(1);
+    }
+    .footer__brand p {
+      font-size: 13px;
+      color: #9ca3af;
+      line-height: 1.6;
+      max-width: 420px;
+    }
+    .footer__col-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-lupa);
+      margin-bottom: 16px;
+      font-family: var(--font-mono);
+    }
+    .footer__links {
+      list-style: none;
+    }
+    .footer__links li {
+      margin-bottom: 9px;
+    }
+    .footer__links a {
+      font-size: 13px;
+      color: #d1d5db;
+    }
+    .footer__links a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+    .footer__box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 18px;
+      border-radius: 6px;
+    }
+    .footer__box-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .footer__box-desc {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .footer__box-btn {
+      display: inline-block;
+      background: var(--gold-lupa);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 4px;
+    }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 860px) {
+      .footer__grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .topbar__motto {
+        display: none;
+      }
+      .header-demarcacion {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <aside class="topbar">
+    <div class="container topbar__inner">
+      <div class="topbar__left">
+        <span class="topbar__badge">Fiscalización Ciudadana</span>
+        <span>{formattedToday}</span>
+        <span class="topbar__motto">· Alcaldía Gustavo A. Madero, Ciudad de México</span>
+      </div>
+      <div class="topbar__right">
+        <a href="/#denuncia" class="topbar__link">
+          <span>📢 Buzón Seguro de Denuncia</span>
+        </a>
+        <a href="/rss.xml" class="topbar__link" title="Canal RSS de Bajo la Lupa">
+          <span>RSS</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Header -->
+  <header class="header-main">
+    <div class="container header-main__inner">
+      <a href="/" aria-label="Bajo la Lupa CDMX — Inicio">
+        <img src="/logo.png" alt="Bajo la Lupa CDMX" class="brand-logo-img" width="147" height="50" fetchpriority="high" />
+      </a>
+      <div class="header-demarcacion">
+        <div class="header-demarcacion__title">Observatorio de Vigilancia GAM</div>
+        <div class="header-demarcacion__desc">Transparencia, contratos públicos y contraloría vecinal</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Navbar -->
+  <nav class="navbar" aria-label="Navegación editorial">
+    <div class="container navbar__inner">
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link">Inicio</a></li>
+        {sections.map(sec => (
+          <li><a href={sec.href} class="nav-link">{sec.name}</a></li>
+        ))}
+      </ul>
+      <a href="/#denuncia" class="nav-denuncia-btn">
+        <span>🔎 Reportar Irregularidad</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content Slot -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="/logo.png" alt="Bajo la Lupa CDMX" width="140" height="48" loading="lazy" />
+          <p>
+            Portal independiente de periodismo de investigación, contraloría ciudadana y rendición de cuentas en la Alcaldía Gustavo A. Madero de la Ciudad de México. Ponemos bajo la lupa el destino del presupuesto, las obras públicas y las denuncias de la comunidad.
+          </p>
+        </div>
+        <div>
+          <div class="footer__col-title">Secciones de Cobertura</div>
+          <ul class="footer__links">
+            <li><a href="/">Portada de Investigaciones</a></li>
+            {sections.map(sec => (
+              <li><a href={sec.href}>{sec.name}</a></li>
+            ))}
+            <li><a href="/rss.xml">Canal de Noticias RSS</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__col-title">Buzón de Denuncia Ciudadana</div>
+          <div class="footer__box">
+            <div class="footer__box-title">¿Tienes un expediente o denuncia vecinal?</div>
+            <div class="footer__box-desc">
+              Garantizamos confidencialidad estricta para vecinos, comerciantes y trabajadores que compartan documentos, testimonios o evidencias sobre irregularidades en la GAM.
+            </div>
+            <a href="mailto:denuncia@bajolalupa.com.mx" class="footer__box-btn">Escribir a: denuncia@bajolalupa.com.mx</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>© 2026 <strong>Bajo la Lupa CDMX</strong>. Todos los derechos reservados. Fiscalización ciudadana y libertad de expresión.</p>
+        <p>Gustavo A. Madero · Ciudad de México</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
