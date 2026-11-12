@@ -33,7 +33,7 @@ const formatDate = (d: Date) => {
       <section class="lead-dossier">
         <div class="lead-dossier__media">
           <a href={`/noticias/${leadArticle.id}/`}>
-            <img src={leadArticle.data.image} alt={leadArticle.data.title} class="lead-dossier__img" />
+            <img src={leadArticle.data.image} alt={leadArticle.data.title} class="lead-dossier__img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1280&q=80'" />
           </a>
           <div class="lead-dossier__status-pill">
             <span class="status-dot"></span>
@@ -75,7 +75,7 @@ const formatDate = (d: Date) => {
           <article class="investigation-card">
             <div class="card-media">
               <a href={`/noticias/${art.id}/`}>
-                <img src={art.data.image} alt={art.data.title} loading="lazy" />
+                <img src={art.data.image} alt={art.data.title} loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1280&q=80'" />
               </a>
               <span class="card-category-badge">{art.data.category}</span>
             </div>
@@ -109,7 +109,7 @@ const formatDate = (d: Date) => {
             <article class="radar-article-row">
               <div class="radar-article-thumb">
                 <a href={`/noticias/${art.id}/`}>
-                  <img src={art.data.image} alt={art.data.title} loading="lazy" />
+                  <img src={art.data.image} alt={art.data.title} loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1280&q=80'" />
                 </a>
               </div>
               <div class="radar-article-info">

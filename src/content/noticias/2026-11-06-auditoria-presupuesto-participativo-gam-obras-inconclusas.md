@@ -3,7 +3,7 @@ title: "Auditoría al Presupuesto Participativo en la GAM: 48 colonias reclaman 
 excerpt: "Una revisión ciudadana a las actas de entrega-recepción revela que más de 72 millones de pesos destinados a infraestructura vecinal se encuentran estancados o con avances físicos inferiores al 30%."
 subtitle: "Expediente especial: Vecinos de las zonas altas de la demarcación exigen comparecencia pública de la Dirección de Obras."
 category: "Obras & Presupuesto"
-image: "https://images.unsplash.com/photo-1541888946425-d0fbb186c5f9?q=80&w=1280&auto=format&fit=crop"
+image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1280&q=80"
 imageCaption: "Obras viales y de contención detenidas en las inmediaciones de Cuautepec Barrio Alto. Foto: Archivo Bajo la Lupa."
 author: "Unidad de Investigación Bajo la Lupa"
 pubDate: "2026-11-06T09:00:00Z"
