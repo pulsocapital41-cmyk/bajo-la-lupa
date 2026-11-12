@@ -28,6 +28,47 @@ const sections = [
   { name: "Denuncia Ciudadana", href: "/seccion/denuncia-ciudadana/" },
   { name: "Opinión", href: "/seccion/opinion/" },
 ];
+
+const siteUrl = 'https://bajolalupa.com.mx';
+const currentCanonical = canonicalURL || Astro.url.href;
+
+const jsonLd = type === 'article'
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': currentCanonical.toString(),
+      },
+      headline: siteTitle,
+      description: description,
+      image: [image.startsWith('http') ? image : new URL(image, siteUrl).toString()],
+      datePublished: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
+      dateModified: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
+      author: [
+        {
+          '@type': 'Person',
+          name: author,
+        },
+      ],
+      publisher: {
+        '@type': 'NewsMediaOrganization',
+        name: 'Bajo la Lupa CDMX',
+        url: siteUrl,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${siteUrl}/logo.png`,
+        },
+      },
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'NewsMediaOrganization',
+      name: 'Bajo la Lupa CDMX',
+      url: siteUrl,
+      logo: `${siteUrl}/logo.png`,
+      description: description,
+    };
 ---
 
 <!DOCTYPE html>
@@ -292,6 +333,14 @@ const sections = [
       }
     }
   </style>
+
+  <!-- Search Engine & Google News Directives -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
 </head>
 <body>
   <!-- Header Minimalista y Limpio -->

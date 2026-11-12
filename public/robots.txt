@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bajolalupa.com.mx/sitemap.xml
+Sitemap: https://bajolalupa.com.mx/sitemap-index.xml
